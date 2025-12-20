@@ -10,21 +10,20 @@ const SearchPage = () => {
   const [loading, setLoading] = useState(true);
 
   const cleanTitle = (title?: string) => title ? title.split(' Subtitle Indonesia')[0].trim() : 'Unknown Title';
-  const cleanSlug = (slug?: string) => slug ? slug.split('-episode-')[0] : 'unknown';
 
   const mapApiData = (data: any[]): Anime[] => {
     if (!Array.isArray(data)) return [];
     return data.map((item: any) => ({
-      id: item.animeId || cleanSlug(item.slug),
+      id: item.animeId || item.slug || 'unknown',
       title: cleanTitle(item.title),
       thumbnail: item.poster || '',
       banner: item.poster || '',
-      episode: item.type === 'Movie' ? 'Movie' : (item.episode || item.type || 'ONA'),
-      status: item.status?.toLowerCase().includes('completed') ? 'COMPLETED' : 'ONGOING',
-      year: parseInt(item.date) || 2025,
-      rating: 8.0 + (Math.random() * 1.5),
-      genre: [item.type || 'Action'],
-      synopsis: `Release status: ${item.status || 'Active'}. Dive into the world of ${item.title} on Kanatanime V3.`,
+      episode: item.episodes ? `EP ${item.episodes}` : (item.type === 'Movie' ? 'Movie' : 'ONA'),
+      status: item.status?.toLowerCase().includes('ongoing') ? 'ONGOING' : 'COMPLETED',
+      year: parseInt(item.year) || parseInt(item.date) || 2025,
+      rating: item.score ? parseFloat(item.score) : (8.0 + Math.random() * 1.5),
+      genre: item.genreList ? item.genreList.map((genre: any) => genre.title) : ['Action'],
+      synopsis: item.synopsis || `Release status: ${item.status || 'Active'}. Dive into the world of ${item.title} on Kanatanime V3.`,
       likes: `${Math.floor(Math.random() * 50) + 1}K`
     }));
   };
@@ -36,9 +35,9 @@ const SearchPage = () => {
         setLoading(true);
         const res = await fetch(`https://www.sankavollerei.com/anime/search/${query}`);
         const json = await res.json();
-        
-        if (json.status === 'success' && json.data) {
-          setResults(mapApiData(json.data));
+
+        if (json.status === 'success' && json.data && json.data.animeList) {
+          setResults(mapApiData(json.data.animeList));
         }
       } catch (error) {
         console.error('Search Error:', error);
