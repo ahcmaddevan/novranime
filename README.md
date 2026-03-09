@@ -4,46 +4,88 @@
 
 # Kanatanime V3 - Neo Brutalism
 
-This contains everything you need to run your app locally.
+A modern, high-performance anime streaming web application featuring a bold **Neo-Brutalist** design aesthetic. This version is a complete rewrite focusing on speed, user experience, and a unique visual identity.
 
-## Run Locally
+## 🚀 Features
 
-**Prerequisites:**  Node.js
+- **Neo-Brutalist Design**: Striking visual style with bold colors, high contrast, and thick borders.
+- **Vast Content Library**: Seamless access to Anime, Donghua, Movies, and Tokusatsu.
+- **Real-time Scraper**: Powered by a robust Hono-based backend that scrapes content from reliable sources (AnimeKompi).
+- **PWA Ready**: Fully installable as a Progressive Web App on mobile and desktop for a native-like experience.
+- **Custom Video Player**: Integrated HLS.js player for smooth streaming of high-quality content.
+- **Comprehensive Discovery**:
+  - Daily release schedules.
+  - Trending and popular series.
+  - Genre and season-based navigation.
+  - Advanced search functionality.
+- **Favorites System**: Locally saved favorites to keep track of your must-watch series.
+- **SEO Optimized**: Dynamic metadata and structured data for better search engine visibility.
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## 🛠 Tech Stack
 
-## Docker Deployment
+### Frontend
+- **Framework**: React 19
+- **Styling**: Tailwind CSS 4 (Neo-Brutalism theme)
+- **Routing**: React Router 7
+- **Icons**: Font Awesome 7
+- **Video Player**: HLS.js
+- **Build Tool**: Vite 6
 
-To run this application using Docker:
+### Backend
+- **Framework**: Hono (Node.js)
+- **Scraping**: Cheerio & Axios
+- **Server**: @hono/node-server
 
-### Prerequisites
-- Docker Engine
-- Docker Compose (optional, for easier orchestration)
+### Infrastructure
+- **Containerization**: Docker & Docker Compose
+- **Reverse Proxy**: Nginx
 
-### Build and Run with Docker
+## 🏁 Getting Started
+
+### Local Development
+
+**Prerequisites:** Node.js (v18+) and npm
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/idlanyor/kanatanime-v3.git
+   cd kanatanime-v3
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+3. **Start development server:**
+   ```bash
+   npm run dev
+   ```
+   This will start both the Vite frontend and the Hono backend concurrently.
+
+### 🐳 Docker Deployment
+
+The easiest way to deploy Kanatanime V3 is using Docker Compose.
 
 ```bash
-# Build and run the container
-docker build -t kanatanime-v3 .
-docker run -p 80:80 kanatanime-v3
+# Build and run the entire stack
+docker-compose up --build -d
 ```
 
-### Build and Run with Docker Compose
+The application will be accessible at `http://localhost`.
 
-```bash
-# Build and run using docker-compose
-docker-compose up --build
-```
+## 📂 Project Structure
 
-The application will be accessible at `http://localhost`
+- `src/`: React frontend application.
+  - `components/`: Reusable UI components (AnimeCard, VideoPlayer, etc.).
+  - `pages/`: Page-level components for different routes.
+  - `hooks/`: Custom React hooks (useFavorites, useAuth).
+  - `utils/`: Utility functions and API helpers.
+- `server/`: Hono backend server and scraping logic.
+  - `scraper.ts`: Core scraping algorithms.
+  - `index.ts`: API route definitions.
+- `public/`: Static assets and PWA configuration.
 
-## Features
+## 📜 License
 
-- Neo-brutalist design aesthetic
-- Responsive layout
-- Developer tools detection
-- Context menu navigation
+This project is for educational purposes only. All content is scraped from third-party sources.
